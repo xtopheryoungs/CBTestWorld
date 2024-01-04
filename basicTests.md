@@ -87,7 +87,7 @@ function _06_inspect () {
         }
         for (let value of ABS_DIRECTION) {
             auxData = ABS_DIRECTION.indexOf(value)
-            blocks.place(blocks.blockWithData(blocks.blockByName("wool"), auxData), positions.add(
+            blocks.place(blocks.blockWithData(blocks.blockByName("observer"), auxData), positions.add(
             HOME,
             UNIT_VECTOR[auxData]
             ))
