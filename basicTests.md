@@ -69,33 +69,27 @@ function inspectHelper (dir: string, block: boolean) {
 function _06_inspect () {
     agent.teleport(HOME, NORTH)
     if (agent.getOrientation() == FACING_NORTH && samePosition(agent.getPosition(), HOME)) {
-        for (let value of ABS_DIRECTION) {
-            testBlock = GEM_BLOCKS[ABS_DIRECTION.indexOf(value)]
+        for (let value2 of ABS_DIRECTION) {
+            testBlock = GEM_BLOCKS[ABS_DIRECTION.indexOf(value2)]
+            result = "inspect block: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value2)]
             blocks.place(testBlock, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value2)]
             ))
-            if (inspectHelper(value, true) == testBlock) {
-                updateResults("inspect block: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-            } else {
-                updateResults("inspect block: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-            }
+            updateResults(result, inspectHelper(value2, true) == testBlock)
             blocks.place(AIR, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value2)]
             ))
         }
-        for (let value of ABS_DIRECTION) {
-            auxData = ABS_DIRECTION.indexOf(value)
+        for (let value3 of ABS_DIRECTION) {
+            auxData = ABS_DIRECTION.indexOf(value3)
+            result = "inspect data: " + REL_DIRECTION[auxData]
             blocks.place(blocks.blockWithData(blocks.blockByName("observer"), auxData), positions.add(
             HOME,
             UNIT_VECTOR[auxData]
             ))
-            if (inspectHelper(value, false) == auxData) {
-                updateResults("inspect data: " + REL_DIRECTION[auxData], true)
-            } else {
-                updateResults("inspect data: " + REL_DIRECTION[auxData], false)
-            }
+            updateResults(result, inspectHelper(value3, false) == auxData)
             blocks.place(AIR, positions.add(
             HOME,
             UNIT_VECTOR[auxData]
@@ -191,8 +185,8 @@ function _04_turn () {
 }
 player.onChat("Passed", function () {
     if (passedTests.length > 0) {
-        for (let value of passedTests) {
-            player.say(value)
+        for (let value4 of passedTests) {
+            player.say(value4)
         }
     } else {
         player.say("No tests passed")
@@ -207,17 +201,14 @@ function _08_place () {
     HOME,
     pos(0, -1, 0)
     ))
-    for (let value of ABS_DIRECTION) {
+    for (let value5 of ABS_DIRECTION) {
+        result = "place: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value5)]
         agent.setItem(testBlock, 1, 1)
-        placeHelper(value)
-        if (blocks.testForBlock(testBlock, positions.add(
+        placeHelper(value5)
+        updateResults(result, blocks.testForBlock(testBlock, positions.add(
         HOME,
-        UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
-        ))) {
-            updateResults("place: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-        } else {
-            updateResults("place: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-        }
+        UNIT_VECTOR[ABS_DIRECTION.indexOf(value5)]
+        )))
     }
     reset()
 }
@@ -287,8 +278,8 @@ function _07_inventory () {
                 }
                 agent.dropAll(DOWN)
                 inv_sum = 0
-                for (let index = 0; index <= 26; index++) {
-                    inv_sum += agent.getItemCount(index + 1)
+                for (let index2 = 0; index2 <= 26; index2++) {
+                    inv_sum += agent.getItemCount(index2 + 1)
                 }
                 if (inv_sum == 0) {
                     updateResults("drop all", true)
@@ -339,61 +330,54 @@ function _07_inventory () {
 function _05_detect () {
     agent.teleport(HOME, NORTH)
     if (agent.getOrientation() == FACING_NORTH && samePosition(agent.getPosition(), HOME)) {
-        for (let value of ABS_DIRECTION) {
+        for (let value6 of ABS_DIRECTION) {
+            result = "detect block (true): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value6)]
             blocks.place(GLASS, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value6)]
             ))
-            if (detectHelper(value, true)) {
-                updateResults("detect block (true): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-            } else {
-                updateResults("detect block (true): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-            }
+            updateResults(result, detectHelper(value6, true))
             blocks.place(AIR, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value6)]
             ))
         }
-        for (let value of ABS_DIRECTION) {
+        for (let value7 of ABS_DIRECTION) {
+            result = "detect redstone (true): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value7)]
             blocks.place(blocks.blockWithData(LEVER, 13), positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value7)]
             ))
-            if (detectHelper(value, false)) {
-                updateResults("detect redstone (true): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-            } else {
-                updateResults("detect redstone (true): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-            }
+            updateResults(result, detectHelper(value7, false))
             blocks.place(AIR, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value7)]
             ))
         }
-        for (let value of ABS_DIRECTION) {
+        for (let value8 of ABS_DIRECTION) {
+            result = "detect redstone (false): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value8)]
             blocks.place(COBWEB, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value8)]
             ))
-            if (!(detectHelper(value, false))) {
-                updateResults("detect redstone (false): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-            } else {
-                updateResults("detect redstone (false): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-            }
+            updateResults(result, !(detectHelper(value8, false)))
             blocks.place(AIR, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value8)]
             ))
         }
-        for (let value of ABS_DIRECTION) {
-            blocks.place(AIR, positions.add(
+        for (let value9 of ABS_DIRECTION) {
+            result = "detect block (false): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value9)]
+            if (!(blocks.testForBlock(AIR, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
-            ))
-            if (!(detectHelper(value, true))) {
-                updateResults("detect block (false): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-            } else {
-                updateResults("detect block (false): " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value9)]
+            )))) {
+                blocks.place(AIR, positions.add(
+                HOME,
+                UNIT_VECTOR[ABS_DIRECTION.indexOf(value9)]
+                ))
             }
+            updateResults(result, !(detectHelper(value9, true)))
         }
         blocks.place(GRASS, positions.add(
         HOME,
@@ -463,22 +447,24 @@ function detectHelper (dir: string, block: boolean) {
 }
 function _09_destroy () {
     agent.teleport(HOME, NORTH)
-    for (let value of ABS_DIRECTION) {
+    for (let value10 of ABS_DIRECTION) {
+        result = "destroy: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value10)]
         blocks.place(PURPUR_BLOCK, positions.add(
         HOME,
-        UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+        UNIT_VECTOR[ABS_DIRECTION.indexOf(value10)]
         ))
-        destroyHelper(value)
-        if (blocks.testForBlock(AIR, positions.add(
+        destroyHelper(value10)
+        updateResults(result, blocks.testForBlock(AIR, positions.add(
         HOME,
-        UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
-        ))) {
-            updateResults("destroy: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-        } else {
-            updateResults("destroy: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
+        UNIT_VECTOR[ABS_DIRECTION.indexOf(value10)]
+        )))
+        if (!(blocks.testForBlock(AIR, positions.add(
+        HOME,
+        UNIT_VECTOR[ABS_DIRECTION.indexOf(value10)]
+        )))) {
             blocks.place(AIR, positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value10)]
             ))
         }
     }
@@ -530,8 +516,8 @@ function moveHelper (dir: string) {
 }
 player.onChat("Failed", function () {
     if (failedTests.length > 0) {
-        for (let value of failedTests) {
-            player.say(value)
+        for (let value11 of failedTests) {
+            player.say(value11)
         }
     } else {
         player.say("No tests failed")
@@ -558,8 +544,9 @@ function _10_till () {
     HOME,
     pos(0, -1, 0)
     ))
-    for (let value of ABS_DIRECTION) {
-        if (value == "up") {
+    for (let value12 of ABS_DIRECTION) {
+        result = "till: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value12)]
+        if (value12 == "up") {
             blocks.place(GRASS, positions.add(
             HOME,
             pos(0, 1, 0)
@@ -572,17 +559,13 @@ function _10_till () {
             tillXYZ = positions.add(
             HOME,
             positions.add(
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)],
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value12)],
             pos(0, -1, 0)
             )
             )
         }
-        tillHelper(value)
-        if (blocks.testForBlock(blocks.blockByName("farmland"), tillXYZ)) {
-            updateResults("till: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-        } else {
-            updateResults("till: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-        }
+        tillHelper(value12)
+        updateResults(result, blocks.testForBlock(blocks.blockByName("farmland"), tillXYZ))
     }
     reset()
 }
@@ -608,30 +591,24 @@ function _12_other () {
     if (samePosition(HOME, agent.getPosition())) {
         testBlock = STONE
         wrongBlock = BOOKSHELF
-        for (let index = 0; index <= 26; index++) {
-            agent.setItem(wrongBlock, INV_FULL_STACK, index + 1)
+        for (let index3 = 0; index3 <= 26; index3++) {
+            agent.setItem(wrongBlock, INV_FULL_STACK, index3 + 1)
         }
         agent.setItem(testBlock, INV_FULL_STACK, INV_SLOT_SOURCE)
         agent.setSlot(INV_SLOT_SOURCE)
         agent.setAssist(PLACE_ON_MOVE, false)
         agent.move(UP, 1)
-        if (blocks.testForBlock(AIR, HOME)) {
-            updateResults("place on move (false)", true)
-        } else {
-            updateResults("place on move (false)", false)
-        }
+        updateResults("place on move (false)", blocks.testForBlock(AIR, HOME))
         agent.setAssist(PLACE_ON_MOVE, true)
         agent.move(DOWN, 1)
-        if (blocks.testForBlock(testBlock, positions.add(
+        updateResults("place on move (true)", blocks.testForBlock(testBlock, positions.add(
         HOME,
         pos(0, 1, 0)
-        ))) {
-            updateResults("place on move (true)", true)
-            updateResults("set active slot", true)
-        } else {
-            updateResults("place on move (true)", false)
-            updateResults("set active slot", false)
-        }
+        )))
+        updateResults("set active slot", blocks.testForBlock(testBlock, positions.add(
+        HOME,
+        pos(0, 1, 0)
+        )))
         agent.setSlot(1)
         blocks.place(PLANKS_OAK, positions.add(
         HOME,
@@ -645,14 +622,10 @@ function _12_other () {
             updateResults("destroy obstacles (false)", true)
             agent.setAssist(DESTROY_OBSTACLES, true)
             agent.move(UP, 1)
-            if (samePosition(positions.add(
+            updateResults("destroy obstacles (true)", samePosition(positions.add(
             HOME,
             pos(0, 1, 0)
-            ), agent.getPosition())) {
-                updateResults("destroy obstacles (true)", true)
-            } else {
-                updateResults("destroy obstacles (true)", false)
-            }
+            ), agent.getPosition()))
         } else {
             updateResults("destroy obstacles (false)", false)
             blockedTests.push("destroy obstacles (true)")
@@ -671,17 +644,14 @@ function _03_move () {
     pos(0, -1, 0)
     ))
     if (agent.getOrientation() == FACING_NORTH) {
-        for (let value of ABS_DIRECTION) {
+        for (let value13 of ABS_DIRECTION) {
+            result = "move: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value13)]
             agent.teleport(HOME, NORTH)
-            moveHelper(value)
-            if (samePosition(agent.getPosition(), positions.add(
+            moveHelper(value13)
+            updateResults(result, samePosition(agent.getPosition(), positions.add(
             HOME,
-            UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
-            ))) {
-                updateResults("move: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-            } else {
-                updateResults("move: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-            }
+            UNIT_VECTOR[ABS_DIRECTION.indexOf(value13)]
+            )))
         }
     } else {
         blockedTests.push("agent move")
@@ -697,11 +667,7 @@ function delay (ticks: number) {
 }
 function _02_tpToPlayer () {
     agent.teleportToPlayer()
-    if (samePosition(agent.getPosition(), player.position())) {
-        updateResults("tpToPlayer / player position", true)
-    } else {
-        updateResults("tpToPlayer / player position", false)
-    }
+    updateResults("tpToPlayer / player position", samePosition(agent.getPosition(), player.position()))
     reset()
 }
 function reset () {
@@ -746,36 +712,45 @@ function interactHelper (dir: string) {
         agent.interact(RIGHT)
     } else if (dir == "up") {
         agent.interact(UP)
+        agent.move(UP, 2)
     } else {
         agent.interact(DOWN)
+        agent.move(DOWN, 2)
     }
     delay(2)
 }
 function _11_interact () {
     agent.teleport(HOME, NORTH)
+    agent.move(BACK, 1)
     for (let value of ABS_DIRECTION) {
-        blocks.place(REDSTONE_LAMP, HOME)
-        blocks.place(blocks.blockWithData(LEVER, 5), positions.add(
+        let value14 = ""
+        result = "interact: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value14)]
+        blocks.place(REDSTONE_LAMP, positions.add(
         HOME,
-        UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+        pos(0, 1, 0)
+        ))
+        blocks.place(LEVER, HOME)
+        blocks.place(LEVER, positions.add(
+        HOME,
+        pos(0, 1, 1)
         ))
         interactHelper(value)
-        if (blocks.testForBlock(blocks.blockByName("lit_redstone_lamp"), HOME)) {
-            updateResults("interact: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], true)
-        } else {
-            updateResults("interact: " + REL_DIRECTION[ABS_DIRECTION.indexOf(value)], false)
-        }
+        updateResults(result, blocks.testForBlock(blocks.blockByName("lit_redstone_lamp"), positions.add(
+        HOME,
+        pos(0, 1, 0)
+        )))
+        agent.turn(LEFT_TURN)
         blocks.fill(
         AIR,
         HOME,
         positions.add(
         HOME,
-        UNIT_VECTOR[ABS_DIRECTION.indexOf(value)]
+        pos(0, 2, 1)
         ),
         FillOperation.Replace
         )
     }
-    reset()
+    agent.teleport(HOME, NORTH)
 }
 let wrongBlock = 0
 let tillXYZ: Position = null
@@ -789,6 +764,7 @@ let inv_getItemID = false
 let inv_getItemCount = false
 let passedTests: string[] = []
 let auxData = 0
+let result = ""
 let testBlock = 0
 let blockedTests: string[] = []
 let INV_DROP_COUNT = 0
@@ -815,25 +791,25 @@ FACING_SOUTH = 0
 FACING_WEST = 90
 UNIT_VECTOR = [
 pos(0, 0, -1),
+pos(1, 0, 0),
 pos(0, 0, 1),
 pos(-1, 0, 0),
-pos(1, 0, 0),
 pos(0, 1, 0),
 pos(0, -1, 0)
 ]
 ABS_DIRECTION = [
 "north",
+"east",
 "south",
 "west",
-"east",
 "up",
 "down"
 ]
 REL_DIRECTION = [
 "FORWARD",
+"RIGHT",
 "BACK",
 "LEFT",
-"RIGHT",
 "UP",
 "DOWN"
 ]
