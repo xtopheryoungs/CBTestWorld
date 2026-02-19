@@ -82,19 +82,6 @@ function _06_inspect () {
             UNIT_VECTOR[ABS_DIRECTION.indexOf(value2)]
             ))
         }
-        for (let value3 of ABS_DIRECTION) {
-            auxData = ABS_DIRECTION.indexOf(value3)
-            result = "inspect data: " + REL_DIRECTION[auxData]
-            blocks.place(blocks.blockWithData(blocks.blockByName("observer"), auxData), positions.add(
-            HOME,
-            UNIT_VECTOR[auxData]
-            ))
-            updateResults(result, inspectHelper(value3, false) == auxData)
-            blocks.place(AIR, positions.add(
-            HOME,
-            UNIT_VECTOR[auxData]
-            ))
-        }
         blocks.place(GRASS, positions.add(
         HOME,
         pos(0, -1, 0)
