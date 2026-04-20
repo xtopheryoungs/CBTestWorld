@@ -228,7 +228,7 @@ function _01_orientation () {
 }
 function _07_inventory () {
     clearInventory()
-    testBlock = blocks.blockByName("element_0")
+    testBlock = blocks.blockByName("element_1")
     agent.setItem(testBlock, INV_FULL_STACK, INV_SLOT_SOURCE)
     inv_getItemCount = agent.getItemCount(INV_SLOT_SOURCE) == INV_FULL_STACK
     inv_getItemID = agent.getItemDetail(INV_SLOT_SOURCE) == testBlock
